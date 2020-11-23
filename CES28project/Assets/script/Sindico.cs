@@ -48,7 +48,7 @@ public class Sindico : MonoBehaviour
 
     void listarSalas()
     {
-        //numAtualDeSalas = PhotonNetwork.GetRoomList().Length;
+        numAtualDeSalas = PhotonNetwork.GetRoomList().Length;
         numAtualDeSalas = PhotonNetwork.countOfRooms;
 
         if(numAtualDeSalas != numAnteriordeSalas)
