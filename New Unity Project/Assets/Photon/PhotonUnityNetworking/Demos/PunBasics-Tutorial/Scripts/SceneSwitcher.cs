@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class SceneSwitcher : MonoBehaviour
 {
 
-    public void ToChat()
+    /* public void ToChat()
     {
         Globals.OriginScene = SceneManager.GetActiveScene().buildIndex;
         Debug.LogFormat("saindo da cena {0}", Globals.OriginScene);
@@ -34,6 +34,40 @@ public class SceneSwitcher : MonoBehaviour
         foreach (GameObject g in SceneManager.GetSceneByName("DemoChat-Scene").GetRootGameObjects())
         {
             g.SetActive(false);
+        }
+    } */
+
+    public void ToChat()
+    {
+        // get root objects in scene
+        List<GameObject> rootObjects = new List<GameObject>();
+        Scene scene = SceneManager.GetActiveScene();
+        scene.GetRootGameObjects(rootObjects);
+
+        // iterate root objects and do something
+        for (int i = 0; i < rootObjects.Count; ++i)
+        {
+            GameObject gameObject = rootObjects[i];
+            if (gameObject.name == "Main Camera") gameObject.SetActive(false);
+            if (gameObject.name == "Canvas") gameObject.SetActive(false);
+            if (gameObject.name == "DemoChat-Scene") gameObject.SetActive(true);
+        }
+    }
+
+    public void BackToOrigin()
+    {
+        // get root objects in scene
+        List<GameObject> rootObjects = new List<GameObject>();
+        Scene scene = SceneManager.GetActiveScene();
+        scene.GetRootGameObjects(rootObjects);
+
+        // iterate root objects and do something
+        for (int i = 0; i < rootObjects.Count; ++i)
+        {
+            GameObject gameObject = rootObjects[i];
+            if (gameObject.name == "Main Camera") gameObject.SetActive(true);
+            if (gameObject.name == "Canvas") gameObject.SetActive(true);
+            if (gameObject.name == "DemoChat-Scene") gameObject.SetActive(false);
         }
     }
 }
