@@ -10,7 +10,7 @@ public class SceneSwitcher : MonoBehaviour
     {
         Globals.OriginScene = SceneManager.GetActiveScene().buildIndex;
         Debug.LogFormat("saindo da cena {0}", Globals.OriginScene);
-        SceneManager.LoadScene(5);
+        SceneManager.LoadScene(5, LoadSceneMode.Additive);
     }
     public void BackToOrigin()
     {
