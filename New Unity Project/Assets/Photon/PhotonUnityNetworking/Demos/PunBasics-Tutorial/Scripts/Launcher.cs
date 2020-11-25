@@ -16,6 +16,7 @@ using Photon.Realtime;
 public static class Globals
 {
 	public static int OriginScene = 0;
+	public static bool Inicio = true;
 }
 
 
