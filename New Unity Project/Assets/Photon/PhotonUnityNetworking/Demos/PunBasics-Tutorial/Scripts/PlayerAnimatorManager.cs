@@ -37,45 +37,46 @@ namespace Photon.Pun.Demo.PunBasics
 		/// </summary>
 	    void Update () 
 	    {
+			if(GameObject.Find("DemoChat-Scene") == null){
+				// Prevent control is connected to Photon and represent the localPlayer
+				if( photonView.IsMine == false && PhotonNetwork.IsConnected == true )
+				{
+					return;
+				}
 
-			// Prevent control is connected to Photon and represent the localPlayer
-	        if( photonView.IsMine == false && PhotonNetwork.IsConnected == true )
-	        {
-	            return;
-	        }
+				// failSafe is missing Animator component on GameObject
+				if (!animator)
+				{
+					return;
+				}
 
-			// failSafe is missing Animator component on GameObject
-	        if (!animator)
-	        {
-				return;
+				// deal with Jumping
+				AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);			
+
+				// only allow jumping if we are running.
+				if (stateInfo.IsName("Base Layer.Run"))
+				{
+					// When using trigger parameter
+					if (Input.GetButtonDown("Fire2")) animator.SetTrigger("Jump"); 
+				}
+			
+				// deal with movement
+				float h = Input.GetAxis("Horizontal");
+				float v = Input.GetAxis("Vertical");
+
+				// prevent negative Speed.
+				if( v < 0 )
+				{
+					v = 0;
+				}
+
+				// set the Animator Parameters
+				animator.SetFloat( "Speed", h*h+v*v );
+				animator.SetFloat( "Direction", h, directionDampTime, Time.deltaTime );
 			}
+		}
 
-			// deal with Jumping
-            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);			
-
-			// only allow jumping if we are running.
-            if (stateInfo.IsName("Base Layer.Run"))
-            {
-				// When using trigger parameter
-                if (Input.GetButtonDown("Fire2")) animator.SetTrigger("Jump"); 
-			}
-           
-			// deal with movement
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
-
-			// prevent negative Speed.
-            if( v < 0 )
-            {
-                v = 0;
-            }
-
-			// set the Animator Parameters
-            animator.SetFloat( "Speed", h*h+v*v );
-            animator.SetFloat( "Direction", h, directionDampTime, Time.deltaTime );
-	    }
-
-		#endregion
+			#endregion
 
 	}
 }

@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+using Photon.Chat;
+using Photon.Realtime;
+using AuthenticationValues = Photon.Chat.AuthenticationValues;
+#if PHOTON_UNITY_NETWORKING
+using Photon.Pun;
+#endif
+
 [RequireComponent(typeof (ChatGui))]
 public class NamePickGui : MonoBehaviour
 {
@@ -12,6 +19,7 @@ public class NamePickGui : MonoBehaviour
 
     public void Start()
     {
+        this.StartChat();
         this.chatNewComponent = FindObjectOfType<ChatGui>();
 
 
@@ -24,18 +32,20 @@ public class NamePickGui : MonoBehaviour
 
 
     // new UI will fire "EndEdit" event also when loosing focus. So check "enter" key and only then StartChat.
-    public void EndEditOnEnter()
-    {
-        if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))
-        {
-            this.StartChat();
-        }
-    }
+    //public void EndEditOnEnter()
+    //{
+    //    this.StartChat();
+        //if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))
+        //{
+        //    this.StartChat();
+        //}
+    //}
 
     public void StartChat()
     {
         ChatGui chatNewComponent = FindObjectOfType<ChatGui>();
-        chatNewComponent.UserName = this.idInput.text.Trim();
+        //chatNewComponent.UserName = this.idInput.text.Trim();
+        chatNewComponent.UserName = PhotonNetwork.LocalPlayer.NickName;
 		chatNewComponent.Connect();
         enabled = false;
 
