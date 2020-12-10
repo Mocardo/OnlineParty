@@ -13,6 +13,13 @@ using UnityEngine.UI;
 
 using Photon.Realtime;
 
+public static class Globals
+{
+	public static int OriginScene = 0;
+	public static bool Inicio = true;
+}
+
+
 namespace Photon.Pun.Demo.PunBasics
 {
 	#pragma warning disable 649
