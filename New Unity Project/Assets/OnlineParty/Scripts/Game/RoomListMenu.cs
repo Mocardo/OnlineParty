@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomListDisplay : MonoBehaviour
+public class RoomListMenu : MonoBehaviour
 {
+    public GameObject saas;
+
     // Start is called before the first frame update
     void Start()
     {

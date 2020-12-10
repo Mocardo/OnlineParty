@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: c51e02811a34b54488155ed6d20c49c2
+guid: 6c9095b54a5a43c44907b1cdffc44456
+labels:
+- ExitGames
+- PUN
 MonoImporter:
-  externalObjects: {}
   serializedVersion: 2
   defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
-  assetBundleName: 
-  assetBundleVariant: 
