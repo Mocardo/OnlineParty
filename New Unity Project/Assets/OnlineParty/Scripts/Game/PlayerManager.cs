@@ -138,7 +138,8 @@ namespace OnlineParty
 
                 if (this.Health <= 0f)
                 {
-                    GameManager.Instance.LeaveRoom();
+                    this.Health = 1f;
+                    //GameManager.Instance.LeaveRoom();
                 }
             }
 
@@ -241,21 +242,23 @@ namespace OnlineParty
         /// </summary>
         void ProcessInputs()
         {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                // we don't want to fire when we interact with UI buttons for example. IsPointerOverGameObject really means IsPointerOver*UI*GameObject
-                // notice we don't use on on GetbuttonUp() few lines down, because one can mouse down, move over a UI element and release, which would lead to not lower the isFiring Flag.
-                if (EventSystem.current.IsPointerOverGameObject())
+            var chatGui = GameObject.Find("ChatGui");
+            if(chatGui == null || !chatGui.activeSelf){
+                if (Input.GetButtonDown("Fire1"))
                 {
-                    //	return;
-                }
+                    // we don't want to fire when we interact with UI buttons for example. IsPointerOverGameObject really means IsPointerOver*UI*GameObject
+                    // notice we don't use on on GetbuttonUp() few lines down, because one can mouse down, move over a UI element and release, which would lead to not lower the isFiring Flag.
+                    if (EventSystem.current.IsPointerOverGameObject())
+                    {
+                        //	return;
+                    }
 
-                if (!this.IsFiring)
-                {
-                    this.IsFiring = true;
+                    if (!this.IsFiring)
+                    {
+                        this.IsFiring = true;
+                    }
                 }
             }
-
             if (Input.GetButtonUp("Fire1"))
             {
                 if (this.IsFiring)

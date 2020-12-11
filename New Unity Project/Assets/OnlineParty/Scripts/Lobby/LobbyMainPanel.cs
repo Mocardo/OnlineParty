@@ -215,8 +215,16 @@ namespace OnlineParty
             string roomName = RoomNameInputField.text;
             roomName = (roomName.Equals(string.Empty)) ? "Room " + Random.Range(1000, 10000) : roomName;
 
+            string maxPlayersText = MaxPlayersInputField.text;
             byte maxPlayers;
-            byte.TryParse(MaxPlayersInputField.text, out maxPlayers);
+            bool deuBom = byte.TryParse(maxPlayersText, out maxPlayers);
+            
+            if(deuBom == false){
+                Debug.LogError(string.Format("Numero máximo de players invalido: {0}, setando 4",
+                                             maxPlayersText));
+                maxPlayers = 4;
+            }
+
             maxPlayers = (byte) Mathf.Clamp(maxPlayers, 2, 8);
 
             RoomOptions options = new RoomOptions {MaxPlayers = maxPlayers, PlayerTtl = 10000 };

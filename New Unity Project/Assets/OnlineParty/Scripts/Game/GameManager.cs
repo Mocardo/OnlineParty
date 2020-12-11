@@ -31,9 +31,9 @@ namespace OnlineParty
 
 		static public GameManager Instance;
 
-		public string gameSceneName = "GameRoomScene";
+		public string gameSceneName;
 
-		public string lobbySceneName = "LobbyScene";
+		public string lobbySceneName;
 
 		#endregion
 
@@ -45,6 +45,7 @@ namespace OnlineParty
         [SerializeField]
         private GameObject playerPrefab;
 
+		private int playerCounter = 0;
         #endregion
 
         #region MonoBehaviour CallBacks
@@ -113,8 +114,10 @@ namespace OnlineParty
 			if ( PhotonNetwork.IsMasterClient )
 			{
 				Debug.LogFormat( "OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient ); // called before OnPlayerLeftRoom
-
-				LoadArena();
+				if(playerCounter == 0) {
+					LoadArena();
+				}
+				++playerCounter;
 			}
 		}
 
@@ -129,8 +132,8 @@ namespace OnlineParty
 			if ( PhotonNetwork.IsMasterClient )
 			{
 				Debug.LogFormat( "OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient ); // called before OnPlayerLeftRoom
-
-				LoadArena(); 
+				--playerCounter;
+				//LoadArena(); 
 			}
 		}
 

@@ -40,13 +40,14 @@ namespace OnlineParty
 	public class ChatGui : MonoBehaviour, IChatClientListener
 	{
 
-		public string[] ChannelsToJoinOnConnect; // set in inspector. Demo channels to join automatically.
+		//public string[] ChannelsToJoinOnConnect; // set in inspector. Demo channels to join automatically.
 
-		public string[] FriendsList;
+		//public string[] FriendsList;
 
 		public int HistoryLengthToFetch; // set in inspector. Up to a certain degree, previously sent messages can be fetched for context
 
 		public string UserName { get; set; }
+		private string RoomName;
 
 		private string selectedChannelName; // mainly used for GUI/input
 
@@ -62,13 +63,13 @@ namespace OnlineParty
 		public GameObject ConnectingLabel;
 
 		public RectTransform ChatPanel;     // set in inspector (to enable/disable panel)
-		public GameObject UserIdFormPanel;
+		//public GameObject UserIdFormPanel;
 		public InputField InputFieldChat;   // set in inspector
 		public Text CurrentChannelText;     // set in inspector
 		public Toggle ChannelToggleToInstantiate; // set in inspector
 
 
-		public GameObject FriendListUiItemtoInstantiate;
+		//public GameObject FriendListUiItemtoInstantiate;
 
 		private readonly Dictionary<string, Toggle> channelToggles = new Dictionary<string, Toggle>();
 
@@ -118,12 +119,18 @@ namespace OnlineParty
 			DontDestroyOnLoad(this.gameObject);
 
 			this.UserIdText.text = "";
+			this.UserIdText.gameObject.SetActive(true);
 			this.StateText.text  = "";
 			this.StateText.gameObject.SetActive(true);
-			this.UserIdText.gameObject.SetActive(true);
 			this.Title.SetActive(true);
+			
 			this.ChatPanel.gameObject.SetActive(false);
 			this.ConnectingLabel.SetActive(false);
+
+			this.UserName = PhotonNetwork.LocalPlayer.NickName;
+			this.RoomName = PhotonNetwork.CurrentRoom.Name;
+			
+			//this.ChannelsToJoinOnConnect.
 
 			if (string.IsNullOrEmpty(this.UserName))
 			{
@@ -137,17 +144,19 @@ namespace OnlineParty
 			bool appIdPresent = !string.IsNullOrEmpty(this.chatAppSettings.AppIdChat);
 
 			this.missingAppIdErrorPanel.SetActive(!appIdPresent);
-			this.UserIdFormPanel.gameObject.SetActive(appIdPresent);
+			//this.UserIdFormPanel.gameObject.SetActive(appIdPresent);
 
 			if (!appIdPresent)
 			{
 				Debug.LogError("You need to set the chat app ID in the PhotonServerSettings file in order to continue.");
 			}
+
+			this.Connect();
 		}
 
 		public void Connect()
 		{
-			this.UserIdFormPanel.gameObject.SetActive(false);
+			//this.UserIdFormPanel.gameObject.SetActive(false);
 
 			this.chatClient = new ChatClient(this);
 			#if !UNITY_WEBGL
@@ -365,10 +374,11 @@ namespace OnlineParty
 
 		public void OnConnected()
 		{
-			if (this.ChannelsToJoinOnConnect != null && this.ChannelsToJoinOnConnect.Length > 0)
+			/*if (this.ChannelsToJoinOnConnect != null && this.ChannelsToJoinOnConnect.Length > 0)
 			{
 				this.chatClient.Subscribe(this.ChannelsToJoinOnConnect, this.HistoryLengthToFetch);
-			}
+			}*/
+			this.chatClient.Subscribe(this.RoomName, messagesFromHistory:this.HistoryLengthToFetch);
 
 			this.ConnectingLabel.SetActive(false);
 
@@ -376,6 +386,7 @@ namespace OnlineParty
 
 			this.ChatPanel.gameObject.SetActive(true);
 
+			/* Sem amiguinhos
 			if (this.FriendsList!=null  && this.FriendsList.Length>0)
 			{
 				this.chatClient.AddFriends(this.FriendsList); // Add some users to the server-list to get their status updates
@@ -396,7 +407,7 @@ namespace OnlineParty
 			{
 				this.FriendListUiItemtoInstantiate.SetActive(false);
 			}
-
+			*/
 
 			this.chatClient.SetOnlineStatus(ChatUserStatus.Online); // You can set your online state (without a mesage).
 		}
@@ -476,6 +487,7 @@ namespace OnlineParty
 			this.channelToggles.Add(channelName, cbtn);
 		}
 
+		/*
 		private void InstantiateFriendButton(string friendId)
 		{
 			GameObject fbtn = (GameObject)Instantiate(this.FriendListUiItemtoInstantiate);
@@ -488,6 +500,7 @@ namespace OnlineParty
 
 			this.friendListItemLUT[friendId] = _friendItem;
 		}
+		*/
 
 
 		public void OnUnsubscribed(string[] channels)

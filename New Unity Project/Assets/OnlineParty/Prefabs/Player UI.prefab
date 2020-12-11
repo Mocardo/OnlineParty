@@ -201,6 +201,7 @@ MonoBehaviour:
   screenOffset: {x: 0, y: 30, z: 0}
   playerNameText: {fileID: 11467878}
   playerHealthSlider: {fileID: 11470066}
+  gameCanvasName: GameGui
 --- !u!225 &225577372249270236
 CanvasGroup:
   m_ObjectHideFlags: 0

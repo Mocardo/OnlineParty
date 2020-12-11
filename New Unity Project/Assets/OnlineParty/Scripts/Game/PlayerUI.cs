@@ -48,6 +48,8 @@ namespace OnlineParty
 	    
 		Vector3 targetPosition;
 
+		public string gameCanvasName;
+
 		#endregion
 
 		#region MonoBehaviour Messages
@@ -60,7 +62,7 @@ namespace OnlineParty
 
 			_canvasGroup = this.GetComponent<CanvasGroup>();
 			
-			this.transform.SetParent(GameObject.Find("Canvas").GetComponent<Transform>(), false);
+			this.transform.SetParent(GameObject.Find(gameCanvasName).GetComponent<Transform>(), false);
 		}
 
 		/// <summary>

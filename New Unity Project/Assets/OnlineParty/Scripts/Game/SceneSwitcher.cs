@@ -37,6 +37,9 @@ public class SceneSwitcher : MonoBehaviour
         }
     } */
 
+    public List<GameObject> objectsToDeactivate;
+    public List<GameObject> objectsToActivate;
+
     public void ToChat()
     {
         // get root objects in scene
@@ -48,9 +51,8 @@ public class SceneSwitcher : MonoBehaviour
         for (int i = 0; i < rootObjects.Count; ++i)
         {
             GameObject gameObject = rootObjects[i];
-            if (gameObject.name == "Main Camera") gameObject.SetActive(false);
-            if (gameObject.name == "Canvas") gameObject.SetActive(false);
-            if (gameObject.name == "DemoChat-Scene") gameObject.SetActive(true);
+            if (objectsToDeactivate.Contains(gameObject)) gameObject.SetActive(false);
+            if (objectsToActivate.Contains(gameObject)) gameObject.SetActive(true);
         }
     }
 
@@ -65,9 +67,8 @@ public class SceneSwitcher : MonoBehaviour
         for (int i = 0; i < rootObjects.Count; ++i)
         {
             GameObject gameObject = rootObjects[i];
-            if (gameObject.name == "Main Camera") gameObject.SetActive(true);
-            if (gameObject.name == "Canvas") gameObject.SetActive(true);
-            if (gameObject.name == "DemoChat-Scene") gameObject.SetActive(false);
+            if (objectsToDeactivate.Contains(gameObject)) gameObject.SetActive(true);
+            if (objectsToActivate.Contains(gameObject)) gameObject.SetActive(false);
         }
     }
 }
